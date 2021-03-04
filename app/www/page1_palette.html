@@ -1,0 +1,17 @@
+
+<canvas id="p1bg" style="position: absolute"></canvas>
+<div id="p1zr" style="float: left;"></div>
+
+<script>
+    Shiny.addCustomMessageHandler('pageoneanalysis_hsb_range', function(hsb_range) {
+        hsbRange = hsb_range;
+    });
+    Shiny.addCustomMessageHandler('pageoneanalysis_color_set', function(color_set) {
+        colorSet = color_set;
+    });
+    if (typeof(hsbRange) != "undefined") {
+        page1InitPaletteBackground(hsbRange = hsbRange);
+        page1InitDataPointsOnPalette(hsbRange = hsbRange, colorRawSet = colorSet);
+    }
+    
+</script>

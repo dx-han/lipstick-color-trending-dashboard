@@ -1,0 +1,73 @@
+page1_board_ui <- function(id) {
+  ns <- NS(id)
+  total.color <- color[time_period==max(color$time_period) & price_interval=="整体" & age_level=="整体"][order(-total_index)]
+  up.color <- color[time_period==max(color$time_period) & price_interval=="整体" & age_level=="整体"][order(-up_index)]
+  htmlTemplate(
+    filename = "www/page1_board.html",
+    top_color_1 = total.color[1]$color_name,
+    top_color_1_img = str_replace_all(paste0("img/tmp/",total.color[1]$color_name,".png"), " ", ""),
+    top_color_1_value = rgb(str_split(str_sub(total.color[1]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[1]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[1]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_2 = total.color[2]$color_name,
+    top_color_2_img = str_replace_all(paste0("img/tmp/",total.color[2]$color_name,".png"), " ", ""),
+    top_color_2_value = rgb(str_split(str_sub(total.color[2]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[2]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[2]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_3 = total.color[3]$color_name,
+    top_color_3_img = str_replace_all(paste0("img/tmp/",total.color[3]$color_name,".png"), " ", ""),
+    top_color_3_value = rgb(str_split(str_sub(total.color[3]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[3]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[3]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_4 = total.color[4]$color_name,
+    top_color_4_img = str_replace_all(paste0("img/tmp/",total.color[4]$color_name,".png"), " ", ""),
+    top_color_4_value = rgb(str_split(str_sub(total.color[4]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[4]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[4]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_5 = total.color[5]$color_name,
+    top_color_5_img = str_replace_all(paste0("img/tmp/",total.color[5]$color_name,".png"), " ", ""),
+    top_color_5_value = rgb(str_split(str_sub(total.color[5]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[5]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[5]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_6 = total.color[6]$color_name,
+    top_color_6_img = str_replace_all(paste0("img/tmp/",total.color[6]$color_name,".png"), " ", ""),
+    top_color_6_value = rgb(str_split(str_sub(total.color[6]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[6]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[6]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_7 = total.color[7]$color_name,
+    top_color_7_img = str_replace_all(paste0("img/tmp/",total.color[7]$color_name,".png"), " ", ""),
+    top_color_7_value = rgb(str_split(str_sub(total.color[7]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[7]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[7]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_8 = total.color[8]$color_name,
+    top_color_8_img = str_replace_all(paste0("img/tmp/",total.color[8]$color_name,".png"), " ", ""),
+    top_color_8_value = rgb(str_split(str_sub(total.color[8]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[8]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[8]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_9 = total.color[9]$color_name,
+    top_color_9_img = str_replace_all(paste0("img/tmp/",total.color[9]$color_name,".png"), " ", ""),
+    top_color_9_value = rgb(str_split(str_sub(total.color[9]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[9]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[9]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    top_color_10 = total.color[10]$color_name,
+    top_color_10_img = str_replace_all(paste0("img/tmp/",total.color[10]$color_name,".png"), " ", ""),
+    top_color_10_value = rgb(str_split(str_sub(total.color[10]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(total.color[10]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(total.color[10]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    up_color_1 = up.color[1]$color_name,
+    up_color_1_img = str_replace_all(paste0("img/tmp/",up.color[1]$color_name,".png"), " ", ""),
+    up_color_1_value = rgb(str_split(str_sub(up.color[1]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[1]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[1]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255),   
+    up_color_2 = up.color[2]$color_name,
+    up_color_2_img = str_replace_all(paste0("img/tmp/",up.color[2]$color_name,".png"), " ", ""),
+    up_color_2_value = rgb(str_split(str_sub(up.color[2]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[2]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[2]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_3 = up.color[3]$color_name,
+    up_color_3_img = str_replace_all(paste0("img/tmp/",up.color[3]$color_name,".png"), " ", ""),
+    up_color_3_value = rgb(str_split(str_sub(up.color[3]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[3]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[3]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_4 = up.color[4]$color_name,
+    up_color_4_img = str_replace_all(paste0("img/tmp/",up.color[4]$color_name,".png"), " ", ""),
+    up_color_4_value = rgb(str_split(str_sub(up.color[4]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[4]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[4]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_5 = up.color[5]$color_name,
+    up_color_5_img = str_replace_all(paste0("img/tmp/",up.color[5]$color_name,".png"), " ", ""),
+    up_color_5_value = rgb(str_split(str_sub(up.color[5]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[5]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[5]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_6 = up.color[6]$color_name,
+    up_color_6_img = str_replace_all(paste0("img/tmp/",up.color[6]$color_name,".png"), " ", ""),
+    up_color_6_value = rgb(str_split(str_sub(up.color[6]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[6]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[6]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_7 = up.color[7]$color_name,
+    up_color_7_img = str_replace_all(paste0("img/tmp/",up.color[7]$color_name,".png"), " ", ""),
+    up_color_7_value = rgb(str_split(str_sub(up.color[7]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[7]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[7]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_8 = up.color[8]$color_name,
+    up_color_8_img = str_replace_all(paste0("img/tmp/",up.color[8]$color_name,".png"), " ", ""),
+    up_color_8_value = rgb(str_split(str_sub(up.color[8]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[8]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[8]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_9 = up.color[9]$color_name,
+    up_color_9_img = str_replace_all(paste0("img/tmp/",up.color[9]$color_name,".png"), " ", ""),
+    up_color_9_value = rgb(str_split(str_sub(up.color[9]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[9]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[9]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255), 
+    up_color_10 = up.color[10]$color_name,
+    up_color_10_img = str_replace_all(paste0("img/tmp/",up.color[10]$color_name,".png"), " ", ""),
+    up_color_10_value = rgb(str_split(str_sub(up.color[10]$color_rgb,2,-2),",")[[1]][1],str_split(str_sub(up.color[10]$color_rgb,2,-2),",")[[1]][2],str_split(str_sub(up.color[10]$color_rgb,2,-2),",")[[1]][3],maxColorValue=255)
+  )
+}
+
+
+page1_board_server <- function(input, output, session, color) {
+  
+}

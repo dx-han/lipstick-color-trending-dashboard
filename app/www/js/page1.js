@@ -43,9 +43,10 @@ function page1InitPaletteBackground(hsbRange) {
     };
 
     console.log(minMax);
-    $(function() {
-        page1RenderBackground(bgDom, minMax);
-    });
+    page1RenderBackground(bgDom, minMax);
+    // $(function() {
+    //     page1RenderBackground(bgDom, minMax);
+    // });
 }
 
 
@@ -102,10 +103,12 @@ function page1InitDataPointsOnPalette(hsbRange, colorRawSet) {
     };
 
     console.log(colorSet);
-    $(function() {
-        page1AddHsvToColorSet(colorSet);
-        page1RenderDataPoints(colorSet, minMax);
-    });
+    page1AddHsvToColorSet(colorSet);
+    page1RenderDataPoints(colorSet, minMax);
+    // $(function() {
+    //     page1AddHsvToColorSet(colorSet);
+    //     page1RenderDataPoints(colorSet, minMax);
+    // });
 }
 
 

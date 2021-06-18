@@ -7,3 +7,5 @@ login.R
 .Rproj.user
 .vscode
 .Rhistory
+shiny_dashboard.Rproj
+rsconnect/

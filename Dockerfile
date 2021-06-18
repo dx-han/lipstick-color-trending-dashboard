@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     libssh2-1-dev \
     libsodium-dev
 
-RUN R -e "install.packages(c('shiny', 'shinyjs', 'data.table', 'tidyverse', 'readxl', 'reticulate', 'devtools', 'DT', 'shinyWidgets', 'farver', 'highcharter'))"
+RUN R -e "install.packages(c('shiny', 'shinyjs', 'data.table', 'tidyverse', 'readxl', 'reticulate', 'devtools', 'DT', 'shinyWidgets', 'farver'))"
+RUN R -e "install.packages(c('highcharter'))"
 RUN R -e "install.packages('plotly', repos='http://cran.rstudio.com/')"
 RUN R -e "devtools::install_github('rstudio/rscrypt')"
 RUN R -e "remotes::install_github('ericrayanderson/shinymaterial')"

@@ -6493,7 +6493,7 @@ textarea.materialize-textarea {
   display: inline-block;
   height: 25px;
   line-height: 25px;
-  font-size: 0.5rem;
+  font-size: 0.7rem;
   transition: .28s ease;
   user-select: none;
 }
@@ -8155,7 +8155,9 @@ input[type=range]::-ms-thumb {
 .tap-target-wrapper.open .tap-target-wave::after {
   visibility: visible;
   animation: pulse-animation 1s cubic-bezier(0.24, 0, 0.38, 1) infinite;
-  transition: opacity .3s, transform .3s, visibility 0s 1s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s 1s;
 }
 
 .tap-target {
@@ -8199,7 +8201,9 @@ input[type=range]::-ms-thumb {
 
 .tap-target-wave::after {
   visibility: hidden;
-  transition: opacity .3s, transform .3s, visibility 0s;
+  transition: opacity .3s,
+ transform .3s,
+ visibility 0s;
   z-index: -1;
 }
 

@@ -4,11 +4,11 @@
       <div class="card" style="height: 90vh;">
         <div class="card-content">
           <div class="section" style="margin-top:-30px;">
-            <h6 class="white-text">颜色全景</h6>
+            <h6 class="white-text">Color Details</h6>
           </div>
           <div class="divider grey darken-3"></div>
           <div class="section">
-            <p class="white-text" style="color:#b9b4b5!important;">操作方法<br>步骤一. 点击左侧色相块将在色谱图上显示该色块中所有口红色号<br>步骤二. 点击色谱图中口红色号获取色号具体信息</p>
+            <p class="white-text" style="color:#b9b4b5!important;">How to use<br>Step 1. Click the Hue bar below to display Saturation-Value palette.<br>Step 2. Click the color circle on the palette to get detailed information about it.</p>
           </div>
           <div class="section">
             <div class="row">
@@ -33,7 +33,7 @@
           <div class="section">
             <div class="row">
               <div class="col s6">
-                <h6 class="white-text">色号综合指数分解&nbsp;<a class="tooltipped" data-position="top" data-tooltip="综合指数由销量指数、销售额指数、产品数指数、流行潜力指数、复购指数加权求和计算而成。"><i class="tiny material-icons grey-text">error_outline</i></a></h6>
+                <h6 class="white-text">Composition&nbsp;<a class="tooltipped" data-position="top" data-tooltip="Composite Index is a weighted sum of sales index, sales volume index, product quality index, potential index, repurchase index."><i class="tiny material-icons grey-text">error_outline</i></a></h6>
               </div>
               <div class="col s6">
                 {{ page1_analysis_other_color_dropdown }}
@@ -42,38 +42,6 @@
             <div class="row">
               <div class="col s12">
                 {{ page1_analysis_color_radar }}
-              </div>
-            </div>
-          </div>
-          <div class="divider grey darken-3"></div>
-          <div class="section">
-            <div class="row">
-              <div class="col s6">
-                <h6 class="white-text">色号关联维度&nbsp;<a class="tooltipped" data-position="top" data-tooltip="1. 搜索色号使用的描述词，其中热词指数由描述词PV数计算而成，窜升指数由热词指数每月增幅情况计算而成）<br>2. 色号对应具体单品信息，其中销售额指数由每个单品当月销售额计算而成。"><i class="tiny material-icons grey-text">error_outline</i></a></h6>
-              </div>
-              <div class="col s6">
-                <ul class="tabs">
-                  <li class="tab"><a href="#this-seword">描述词</a></li>
-                  <li class="tab"><a href="#this-item">单品</a></li>
-                </ul>
-              </div>
-            </div>
-            <div id="this-seword">
-              <div class="row">
-                <div class="col s6">
-                  {{ page1_analysis_word_index_selector }}
-                  {{ page1_analysis_word_table }}
-                </div>
-                <div class="col s6">
-                  {{ page1_analysis_word_trend }}
-                </div>
-              </div>
-            </div>
-            <div id="this-item">
-              <div class="row">
-                <div class="col 12">
-                  {{ page1_analysis_item_table }}
-                </div>
               </div>
             </div>
           </div>

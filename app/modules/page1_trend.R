@@ -1,16 +1,16 @@
 
 page1_trend_ui <- function(id) {
   ns <- NS(id)
-  price.interval <- c("整体", "0-100", "100-200", "200-300", "300+")
-  age.level <- c("整体", "80前", "80后", "90后", "95后", "00后")
-  index <- c("综合指数TOP10", "窜升指数TOP10")
-  color.family <- c("全部", unique(color$color_family_name))
+  price.interval <- c("All", "0-100", "100-200", "200-300", "300+")
+  age.level <- c("All", "Other", "80s", "90ss", "95s", "00s")
+  index <- c("Composite Index", "Up Color Index")
+  color.family <- c("All", unique(color$color_family_name))
   htmlTemplate(
     filename = "www/page1_trend.html",
-    page1_trend_price_selector = checkboxGroupInput(ns("priceSelector"), label="价格带", choices=price.interval, selected="整体", inline=TRUE),
-    page1_trend_age_selector = checkboxGroupInput(ns("ageSelector"), label="人群代际", choices=age.level, selected="整体", inline=TRUE),
-    page1_trend_index_selector = radioButtons(ns("indexSelector"), label="选择指数", choices=index, selected="综合指数TOP10", inline=TRUE),
-    page1_trend_color_family_selector = radioButtons(ns("colorFamilySelector"), label="选择色系", choices=color.family, selected="全部", inline=TRUE),
+    page1_trend_price_selector = checkboxGroupInput(ns("priceSelector"), label="Price Range", choices=price.interval, selected="All", inline=TRUE),
+    page1_trend_age_selector = checkboxGroupInput(ns("ageSelector"), label="Age Range", choices=age.level, selected="All", inline=TRUE),
+    page1_trend_index_selector = radioButtons(ns("indexSelector"), label="Index", choices=index, selected="Composite Index", inline=TRUE),
+    page1_trend_color_family_selector = radioButtons(ns("colorFamilySelector"), label="Main Color", choices=color.family, selected="All", inline=TRUE),
     page1_trend_color_table = dataTableOutput(ns("colorTable")),
     page1_trend_color_trend = highchartOutput(ns("colorTrend"))
   )
@@ -23,18 +23,18 @@ page1_trend_server <- function(input, output, session, color) {
   
   # DT color table ----
   output$colorTable <- renderDataTable({
-    if (input$indexSelector == "综合指数TOP10") {
+    if (input$indexSelector == "Composite Index") {
       this.color.table <- color[time_period==max(color$time_period) 
-                                & price_interval == "整体"
-                                & age_level == "整体"
+                                & price_interval == "All"
+                                & age_level == "All"
                                 , .(time_period, color_family_name, color_name, color_rgb, index=total_index)][order(-index)]
     } else {
       this.color.table <- color[time_period==max(color$time_period) 
-                                & price_interval == "整体"
-                                & age_level == "整体"
+                                & price_interval == "All"
+                                & age_level == "All"
                                 , .(time_period, color_family_name, color_name, color_rgb, index=up_index)][order(-index)]
     }
-    if (input$colorFamilySelector != "全部") {
+    if (input$colorFamilySelector != "All") {
       this.color.table <- this.color.table[color_family_name %in% input$colorFamilySelector]
     }
     
@@ -71,7 +71,7 @@ page1_trend_server <- function(input, output, session, color) {
     
     this.color.name <- this.reactive.values$color.table[input$colorTable_rows_selected]$color_name
     
-    if (input$indexSelector == "综合指数TOP10") {
+    if (input$indexSelector == "Composite Index") {
       this.color.trend <- color[price_interval %in% input$priceSelector 
                                 & age_level %in% input$ageSelector
                                 & color_name %in% this.color.name
@@ -83,8 +83,7 @@ page1_trend_server <- function(input, output, session, color) {
                                 , .(time_period, color_family_name, color_name, color_rgb, price_interval, age_level, index=up_index)][order(time_period)]
     }
     
-    this.color.trend$group <- paste0("名称 ", this.color.trend$color_name, "<br>价格段 ", this.color.trend$price_interval, "<br>年龄段 ", this.color.trend$age_level)
-    # time.period <- sort(unique(this.color.trend$time_period))
+    this.color.trend$group <- paste0("Name ", this.color.trend$color_name, "<br>Price Range ", this.color.trend$price_interval, "<br>Age Range ", this.color.trend$age_level)
     this.color.trend$time_period <- as.character(sort(this.color.trend$time_period))
     
     # browser()
@@ -96,7 +95,7 @@ page1_trend_server <- function(input, output, session, color) {
     
     hchart(this.color.trend, "spline", hcaes(x = time_period, y = index, group = group), color=rgb.set) %>%
       hc_chart(backgroundColor = "#272733") %>%
-      hc_tooltip(enabled=T, headerFormat="时间 {point.key}<br>{series.name}<br>", pointFormat="指数 {point.y}") %>%
+      hc_tooltip(enabled=T, headerFormat="Datetime {point.key}<br>{series.name}<br>", pointFormat="Index Value {point.y}") %>%
       hc_xAxis(title=list(enabled=F)) %>%
       hc_yAxis(gridLineWidth = 0, title = list(enabled = F)) %>%
       hc_legend(enabled = F, align = "left", verticalAlign = "middle", layout = "vertical", itemStyle = list(color = "#fff"))

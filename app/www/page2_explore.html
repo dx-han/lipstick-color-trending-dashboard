@@ -1,7 +1,7 @@
 <div class="section" style="background:#272733;" id="page2-explore-filter">
     <div class="row" style="margin-bottom:5px;">
         <div class="col s1">
-          <h6 class="white-text center-align">分组</h6>
+          <h6 class="white-text center-align">Group</h6>
         </div>
         <div class="col 11">
             <div style="float:left;padding-right:20px;">
@@ -15,7 +15,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col s6">
+    <div class="col s7">
       <div class="card" style="height: 90vh;">
         <div class="card-content">
           <div class="section" style="margin-top:-30px;margin-bottom:-30px;">
@@ -31,15 +31,14 @@
               </div>
             </div>
           </div>
-          <!-- <div class="divider grey darken-3" style="margin-top:36px;"></div> -->
           <div class="section">
             {{ page2_explore_color_distance }}
-            <p class="white-text" style="font-size:3px;color:#b9b4b5!important;">口红色号三维位置由HSB表示，其中z轴色相原数值范围分为[300,360]和[0,30]两段，本图对色相已做数值连续化处理。</p>
+            <p class="white-text" style="color:#b9b4b5!important;">The three-dimensional diagram consists of hue, saturation, bright. Z-axis shows the range of hue with the range of [300,360] and [0,30]. The diagram has optimized the range to get the best visualization.</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="col s3">
+    <div class="col s5">
       <div class="card" style="height: 90vh;">
         <div class="card-content">
           <div class="section" style="margin-top:-30px;">
@@ -47,33 +46,14 @@
           </div>
           <div class="divider grey darken-3"></div>
           <div class="section">
-            <p class="white-text" style="float:left;">所属描述词</p>
+            <p class="white-text" style="float:left;">Search Keyword</p>
             <div style="float:right;">{{ page2_explore_word_index_selector}}</div>
             {{ page2_explore_word_table }}
           </div>
           <div class="divider grey darken-3"></div>
           <div class="section">
-            <p class="white-text">所属单品</p>
+            <p class="white-text">Product</p>
             {{ page2_explore_item_table }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col s3">
-      <div class="card" style="height: 90vh;">
-        <div class="card-content">
-          <div class="section" style="margin-top:-30px;">
-            <h6 class="white-text">关联单品<a class="tooltipped" data-position="top" data-tooltip="选择当前色号下的一件单品，显示距离当前单品颜色最近的10件其他单品。"><i class="tiny material-icons grey-text">error_outline</i></a></h6>
-          </div>
-          <div class="divider grey darken-3"></div>
-          <div class="section">
-            <div style="float:left;margin-bottom:-11px;margin-top:-6px;">{{ page2_explore_brand_dropdown }}</div>
-            {{ page2_explore_item_origin_table }}
-          </div>
-          <div class="divider grey darken-3"></div>
-          <div class="section">
-            <h6 class="white-text">与选择单品颜色相近单品</h6>
-            {{ page2_explore_item_color_close_table }}
           </div>
         </div>
       </div>

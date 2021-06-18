@@ -1,18 +1,18 @@
 page2_explore_ui <- function(id) {
   ns <- NS(id)
-  price.interval <- c("整体", "0-100", "100-200", "200-300", "300+")
-  age.level <- c("整体", "80前", "80后", "90后", "95后", "00后")
+  price.interval <- c("All", "0-100", "100-200", "200-300", "300+")
+  age.level <- c("All", "Other", "80s", "90s", "95s", "00s")
   top <- c("TOP5", "TOP10", "TOP20", "TOP30")
   htmlTemplate(
     filename = "www/page2_explore.html",
-    page2_explore_price_selector = radioButtons(ns("priceSelector"), label="价格带", choices=price.interval, selected=price.interval[1], inline=TRUE),
-    page2_explore_age_selector = radioButtons(ns("ageSelector"), label="人群代际", choices=age.level, selected=age.level[1], inline=TRUE),
-    page2_explore_total_index_range_slider = sliderInput(ns("totalIndexRangeSlider"), label="综合指数范围", min=500, max=1000, value=c(500,1000), step=5),
-    page2_explore_up_index_range_slider = sliderInput(ns("upIndexRangeSlider"), label="窜升指数范围", min=500, max=1000, value=c(500, 1000), step=5),
+    page2_explore_price_selector = radioButtons(ns("priceSelector"), label="Price Range", choices=price.interval, selected=price.interval[1], inline=TRUE),
+    page2_explore_age_selector = radioButtons(ns("ageSelector"), label="Age Range", choices=age.level, selected=age.level[1], inline=TRUE),
+    page2_explore_total_index_range_slider = sliderInput(ns("totalIndexRangeSlider"), label="Composite Index Range", min=500, max=1000, value=c(500,1000), step=5),
+    page2_explore_up_index_range_slider = sliderInput(ns("upIndexRangeSlider"), label="Up Color Index Range", min=500, max=1000, value=c(500, 1000), step=5),
     page2_explore_color_dropdown = uiOutput(ns("uiColorDropdown")),
     page2_explore_color_distance = plotlyOutput(ns("colorDistance"), height="500px"),
     page2_explore_click_color_name = uiOutput(ns("uiClickColorName")),
-    page2_explore_word_index_selector = radioButtons(ns("indexSelector"), label="选择指数", choices=c("热词","窜升词"), selected="热词", inline=TRUE),
+    page2_explore_word_index_selector = radioButtons(ns("indexSelector"), label="Index", choices=c("Hot word","Up word"), selected="Hot word", inline=TRUE),
     page2_explore_word_table = dataTableOutput(ns("wordTable")),
     page2_explore_item_table = dataTableOutput(ns("itemTable")),
     page2_explore_brand_dropdown = uiOutput(ns("uiBrandDropdown")),
@@ -40,10 +40,10 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
       & up_index %between% c(input$upIndexRangeSlider[1], input$upIndexRangeSlider[2])
     ]
     this.reactive.values$color.table <- rgb.with.hsb(this.color.table)
-    this.color.name <- c("无", unique(this.color.table[order(color_name)]$color_name))
+    this.color.name <- c("None", unique(this.color.table[order(color_name)]$color_name))
     tagList(
       render_material_from_server(
-        material_dropdown(ns("colorDropdown"), label = "感兴趣色号", choices = this.color.name, selected = this.color.name[1],  color = "#fff")
+        material_dropdown(ns("colorDropdown"), label = "Interested Color", choices = this.color.name, selected = this.color.name[1],  color = "#fff")
       )
     )
   })
@@ -52,15 +52,9 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
   # HC color distance ----
   output$colorDistance <- renderPlotly({
     if (is.null(input$colorDropdown)) return()
-    ###
-    # this.color.table <- color[time_period==max(color$time_period)
-    #                           & price_interval == '整体'
-    #                           & age_level == '整体'
-    #                           , .(time_period, color_family_name, color_name, color_rgb, total_index, up_index)]
-    ###
     this.color.table <- this.reactive.values$color.table
     
-    if (input$colorDropdown != "无") {
+    if (input$colorDropdown != "None") {
       this.select.dropdown <- str_replace_all(input$colorDropdown, "_shinymaterialdropdownspace_", " ")
       this.select.color <- this.color.table[color_name %in% this.select.dropdown]
       this.color.table$distance <- (this.color.table$hue - this.select.color$hue)**2 + (this.color.table$saturation - this.select.color$saturation)**2 + (this.color.table$bright - this.select.color$bright)**2
@@ -78,12 +72,12 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
     this.color.table$color_hex <- this.3d.color
     
     plot_ly(this.color.table, type="scatter3d", mode="markers", x=~bright, y=~saturation, z=~hue, 
-            text=~paste("hex:", color_hex, "<br>hsb:", color_hsb, "<br>综合指数:", total_index, "<br>窜升指数:", up_index), 
+            text=~paste("hex:", color_hex, "<br>hsb:", color_hsb, "<br>Composite Index:", total_index, "<br>Up Color Index:", up_index), 
             color=~color_name, colors=this.3d.color, showlegend=F, source="color_distance") %>%
       layout(scene=list(
-        xaxis=list(title="x轴 亮度", range=c(35,100), gridcolor="#e9e9e9", color="#e9e9e9"),
-        yaxis=list(title="y轴 饱和度", range=c(35,100), gridcolor="#e9e9e9", color="#e9e9e9"),
-        zaxis=list(title="z轴 色相", range=c(0,50), gridcolor="#e9e9e9", color="#e9e9e9"),
+        xaxis=list(title="x-axis Bright", range=c(35,100), gridcolor="#e9e9e9", color="#e9e9e9"),
+        yaxis=list(title="y-axis Saturation", range=c(35,100), gridcolor="#e9e9e9", color="#e9e9e9"),
+        zaxis=list(title="z-axis Hue", range=c(0,50), gridcolor="#e9e9e9", color="#e9e9e9"),
         annotations=list(
           list(x=select.color$bright, y=select.color$saturation, z=select.color$hue, text=select.color$color_name, showarrow=T, opacity=0.7, arrowsize=1, arrowwidth=1, arrowcolor="#fff", font=list(color="#fff"))
       )),
@@ -95,7 +89,7 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
   # click color name ----
   output$uiClickColorName <- renderUI({
     axis <- event_data("plotly_click", "color_distance")
-    if (is.null(axis) || nrow(this.reactive.values$color.table) == 0) return(tags$h6("请选择色号",style="color:#fff"))
+    if (is.null(axis) || nrow(this.reactive.values$color.table) == 0) return(tags$h6("Please click color on the three-dimensional diagram first",style="color:#fff"))
     this.color <- this.reactive.values$color.table[bright %in% axis$x & saturation %in% axis$y & hue %in% axis$z]
     this.reactive.values$select.color <- this.color$color_name
     print(this.color$color_name)
@@ -115,14 +109,14 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
   output$wordTable <- renderDataTable({
     if (is.null(this.reactive.values$select.color) || nrow(this.reactive.values$color.table) == 0) return()
     this.seword <- seword[time_period == max(seword$time_period) & color_name %in% this.reactive.values$select.color]
-    if (input$indexSelector == "热词") {
+    if (input$indexSelector == "Hot word") {
       this.seword.board <-  this.seword[order(-hot_index), .(word=se_keyword, index=hot_index)][index > 0]
       this.reactive.values$seword.board <- this.seword.board
-      this.column <- c("描述词", "热词指数")
+      this.column <- c("Search Keyword", "Hot word index")
     } else {
       this.seword.board <-  this.seword[order(-up_index), .(word=se_keyword, index=up_index)][index > 0]
       this.reactive.values$seword.board <- this.seword.board
-      this.column <- c("描述词", "窜升词指数")
+      this.column <- c("Search Keyword", "Up word index")
     }
     # min.index <- min(this.seword.board$index) - 1
     min.index <- 400
@@ -179,7 +173,7 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
       rownames = F,
       escape = F,
       height = "60%",
-      colnames = c( "品牌", "单品名称", "销售额指数"),
+      colnames = c( "Brand", "Product", "Sales Index"),
       options = list(searching = F, paging = F, ordering = F, info = F, scrollY = "200px", autoWidth = F,
                      columnDefs=list(list("width"="20%", targets=list(0)), list("width"="40%", targets=list(1)), list("width"="40%", targets=list(2)), list(width="5%",targets=list(1)), list(className="dt-left", targets = "_all")),
                      initComplete = JS(
@@ -197,93 +191,4 @@ page2_explore_server <- function(input, output, session, color, seword, item) {
       )
   })
   
-  
-  # brand select dropdown ----
-  output$uiBrandDropdown <- renderUI({
-    if (is.null(this.reactive.values$select.color) || nrow(this.reactive.values$color.table) == 0 || length(this.reactive.values$select.color) == 0) return()
-    this.item.origin.brand <- unique(item[color_name %in% this.reactive.values$select.color][order(brand)]$brand)
-    tagList(
-      render_material_from_server(
-        material_dropdown(ns("brandDropdown"), label = "品牌", choices = this.item.origin.brand, selected = this.item.origin.brand[1],  color = "#fff")
-      )
-    )
-  })
-  
-  
-  # DT brand item origin table ----
-  output$itemOriginTable <- renderDataTable({
-    if (is.null(input$brandDropdown) || nrow(this.reactive.values$color.table) == 0 || length(this.reactive.values$select.color) == 0) return()
-    format.dropdown.element <- str_replace_all(input$brandDropdown, "_shinymaterialdropdownspace_", " ")
-    this.item.origin.table <- item[order(-sales_index)][brand %in% format.dropdown.element & color_name %in% this.reactive.values$select.color]
-    this.reactive.values$item.origin.table <- this.item.origin.table
-    # min.index <- min(this.item.origin.table$sales_index) - 1
-    min.index <- 400
-    this.item.origin.table$sales_index_bar <- paste0('<div style="background:linear-gradient(-90deg, #DF3BFF 10%, #FB7373 90%) 0% 0% / 100% 100% no-repeat;border-radius:10px;width:',
-                                              100/(1000-min.index)*(this.item.origin.table$sales_index-min.index),
-                                              '%;">',
-                                              this.item.origin.table$sales_index,
-                                              '</div>')
-    
-    datatable(
-      this.item.origin.table[, .(img_url, std_name, sales_index_bar)],
-      class = "stripe compact hover",
-      selection = list(mode = "single", selected = c(1)),
-      rownames = F,
-      escape = F,
-      colnames = c("", "单品名称", "销售额指数"),
-      options = list(searching = F, paging = F, ordering = F, info = F, scrollY="200px", scrollCollapse=T, scroller = F, autoWidth = F,
-                     columnDefs=list(list("width"="20%", targets=list(0)), list("width"="40%", targets=list(1)), list("width"="40%", targets=list(2)), list(className="dt-left", targets="_all")),
-                     initComplete = JS(
-                       "function(settings, json) {",
-                       "$(this.api().table().header()).css({'background-color': '#272733', 'color': '#fff'});",
-                       "}"
-                     )
-      )
-    ) %>%
-      formatStyle(
-        columns = "std_name",
-        target = "row",
-        backgroundColor = "#272733",
-        color = "rgb(255,255,255,0.8)"
-      )
-  })
-  
-  
-  # DT item color close table ----
-  output$itemColorCloseTable <- renderDataTable({
-    if (is.null(input$itemOriginTable_rows_selected) || nrow(this.reactive.values$color.table) == 0 || length(this.reactive.values$select.color) == 0) return()
-    this.origin.item.name <- this.reactive.values$item.origin.table[input$itemOriginTable_rows_selected]$std_name
-    this.color.close.table <- find_sim_color(item, this.origin.item.name, this.reactive.values$select.color)
-    this.color.close.table <- drop_na(this.color.close.table[1:10])[order(-sales_index)]
-    # min.index <- min(this.color.close.table$sales_index) - 1
-    min.index <- 400
-    this.color.close.table$sales_index_bar <- paste0('<div style="background:linear-gradient(-90deg, #DF3BFF 10%, #FB7373 90%) 0% 0% / 100% 100% no-repeat;border-radius:10px;width:',
-                                                     100/(1000-min.index)*(this.color.close.table$sales_index-min.index),
-                                                     '%;">',
-                                                     this.color.close.table$sales_index,
-                                                     '</div>')
-    
-    datatable(
-      this.color.close.table[, .(img_url, std_name, sales_index_bar)],
-      class = "stripe compact hover",
-      selection = list(mode = "none"),
-      rownames = F,
-      escape = F,
-      colnames = c("", "单品名称", "销售额指数"),
-      options = list(searching = F, paging = F, ordering = F, info = F, scrollY="200px", scrollCollapse=T, autoWidth = F,
-                     columnDefs=list(list("width"="20%", targets=list(0)), list("width"="40%", targets=list(1)), list("width"="40%", targets=list(2)), list(className="dt-left", targets="_all")),
-                     initComplete = JS(
-                       "function(settings, json) {",
-                       "$(this.api().table().header()).css({'background-color': '#272733', 'color': '#fff'});",
-                       "}"
-                     )
-      )
-    ) %>%
-      formatStyle(
-        columns = "std_name",
-        target = "row",
-        backgroundColor = "#272733",
-        color = "rgb(255,255,255,0.8)"
-      )
-  })
 }

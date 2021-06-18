@@ -7,7 +7,7 @@ page1_analysis_ui <- function(id) {
     page1_analysis_click_color_name = uiOutput(ns("clickColorName")),
     page1_analysis_other_color_dropdown = uiOutput(ns("otherColorDropdown")),
     page1_analysis_color_radar = highchartOutput(ns("colorRadar"), height="50%"),
-    page1_analysis_word_index_selector = radioButtons(ns("indexSelector"), label="Index", choices=c("Hot word","Up word"), selected="热词", inline=TRUE),
+    page1_analysis_word_index_selector = radioButtons(ns("indexSelector"), label="Index", choices=c("Hot word","Up word"), selected="Hot word", inline=TRUE),
     page1_analysis_word_table = dataTableOutput(ns("wordTable")),
     page1_analysis_word_trend = highchartOutput(ns("wordTrend")),
     page1_analysis_item_table = dataTableOutput(ns("itemTable"))

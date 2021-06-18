@@ -23,7 +23,7 @@ seword[,(seword.column.float):=lapply(.SD,round,2), .SDcols=seword.column.float]
 seword$hot_index <- as.integer(seword$hot_index * 10)
 seword$up_index <- as.integer(seword$up_index * 10)
 
-item <- data.table(read_xlsx("www/data/sample.xlsx", sheet="item")[1:6])
+item <- data.table(read_xlsx("www/data/sample.xlsx", sheet="item")[1:5])
 item.column.float <- c("sales_index")
 item[,(item.column.float):=lapply(.SD,round,2), .SDcols=item.column.float]
 item$sales_index <- as.integer(item$sales_index * 10)
